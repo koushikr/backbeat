@@ -46,6 +46,33 @@ class LifecycleTask extends BackbeatTask {
     }
 
     /**
+     * This function forces syncing the latest data mover topic
+     * offsets to the 'lifecycle' metrics snapshot. It is called when
+     * a bucket listing completes.
+     *
+     * By doing this, we ensure that when the bucket tasks queue is
+     * fully processed (no lag), the snapshot of data mover offsets
+     * will be beyond all transition tasks to be executed by the data
+     * mover, hence the conductor can check whether anything remains
+     * to be transitioned by the data mover (and skip the next task if
+     * so).
+     *
+     * @return {undefined}
+     */
+    _snapshotDataMoverTopicOffsets() {
+        this.kafkaBacklogMetrics.snapshotTopicOffsets(
+            this.producer.getKafkaProducer(),
+            this.dataMoverTopic, 'lifecycle', err => {
+                if (err) {
+                    this._log.error('error during snapshot of topic offsets', {
+                        topic: this.dataMoverTopic,
+                        error: err.message,
+                    });
+                }
+            });
+    }
+
+    /**
      * Send entry to the object task topic
      * @param {ActionQueueEntry} entry - The action entry to send to the topic
      * @param {Function} cb - The callback to call
@@ -135,6 +162,8 @@ class LifecycleTask extends BackbeatTask {
                                 });
                         }
                     });
+                } else {
+                    this._snapshotDataMoverTopicOffsets();
                 }
 
                 this._compareRulesToList(bucketData, bucketLCRules,
@@ -192,6 +221,8 @@ class LifecycleTask extends BackbeatTask {
                         });
                     }
                 });
+            } else {
+                this._snapshotDataMoverTopicOffsets();
             }
 
             // if no versions to process, skip further processing for this
@@ -252,6 +283,8 @@ class LifecycleTask extends BackbeatTask {
                         }
                         return next(null, data);
                     });
+                } else {
+                    this._snapshotDataMoverTopicOffsets();
                 }
                 return process.nextTick(() => next(null, data));
             },

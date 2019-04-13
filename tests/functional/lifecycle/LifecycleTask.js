@@ -344,6 +344,12 @@ class ProducerMock {
     }
 }
 
+class KafkaBacklogMetricsMock {
+    snapshotTopicOffsets(kafkaClient, topic, snapshotName, cb) {
+        return process.nextTick(cb);
+    }
+}
+
 class LifecycleBucketProcessorMock {
     constructor() {
         this._log = new Logger(
@@ -362,6 +368,7 @@ class LifecycleBucketProcessorMock {
         };
 
         this._producer = new ProducerMock();
+        this._kafkaBacklogMetrics = new KafkaBacklogMetricsMock();
     }
 
     getCount() {
@@ -385,6 +392,7 @@ class LifecycleBucketProcessorMock {
             bucketTasksTopic: 'bucket-tasks',
             objectTasksTopic: 'object-tasks',
             dataMoverTopic: 'data-mover',
+            kafkaBacklogMetrics: this._kafkaBacklogMetrics,
             log: this._log,
         };
     }
