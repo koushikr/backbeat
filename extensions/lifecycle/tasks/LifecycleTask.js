@@ -57,14 +57,16 @@ class LifecycleTask extends BackbeatTask {
      * to be transitioned by the data mover (and skip the next task if
      * so).
      *
+     *
+     * @param {Werelogs.Logger} log - Logger object
      * @return {undefined}
      */
-    _snapshotDataMoverTopicOffsets() {
+    _snapshotDataMoverTopicOffsets(log) {
         this.kafkaBacklogMetrics.snapshotTopicOffsets(
             this.producer.getKafkaProducer(),
             this.dataMoverTopic, 'lifecycle', err => {
                 if (err) {
-                    this._log.error('error during snapshot of topic offsets', {
+                    log.error('error during snapshot of topic offsets', {
                         topic: this.dataMoverTopic,
                         error: err.message,
                     });
@@ -163,7 +165,7 @@ class LifecycleTask extends BackbeatTask {
                         }
                     });
                 } else {
-                    this._snapshotDataMoverTopicOffsets();
+                    this._snapshotDataMoverTopicOffsets(log);
                 }
 
                 this._compareRulesToList(bucketData, bucketLCRules,
@@ -222,7 +224,7 @@ class LifecycleTask extends BackbeatTask {
                     }
                 });
             } else {
-                this._snapshotDataMoverTopicOffsets();
+                this._snapshotDataMoverTopicOffsets(log);
             }
 
             // if no versions to process, skip further processing for this
@@ -284,7 +286,7 @@ class LifecycleTask extends BackbeatTask {
                         return next(null, data);
                     });
                 } else {
-                    this._snapshotDataMoverTopicOffsets();
+                    this._snapshotDataMoverTopicOffsets(log);
                 }
                 return process.nextTick(() => next(null, data));
             },

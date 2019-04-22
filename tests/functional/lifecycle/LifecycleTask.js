@@ -342,6 +342,10 @@ class ProducerMock {
     getEntries() {
         return this.entries;
     }
+
+    getKafkaProducer() {
+        return null;
+    }
 }
 
 class KafkaBacklogMetricsMock {
