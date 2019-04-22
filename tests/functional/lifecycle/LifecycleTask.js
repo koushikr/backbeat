@@ -305,6 +305,7 @@ class S3Helper {
 class ProducerMock {
     constructor() {
         this.reset();
+        this.kafkaBacklogMetrics = null;
     }
 
     reset() {
@@ -320,7 +321,16 @@ class ProducerMock {
         };
     }
 
+    setKafkaBacklogMetrics(kafkaBacklogMetrics) {
+        this.kafkaBacklogMetrics = kafkaBacklogMetrics;
+    }
+
     sendToTopic(topicName, entries, cb) {
+        if (this.kafkaBacklogMetrics.snapshotCalled[topicName]) {
+            assert.fail('did not expect more entries published with ' +
+                        `sendToTopic() after snapshot of topic ${topicName}` +
+                        'offsets');
+        }
         const entry = JSON.parse(entries[0].message);
         if (topicName === 'bucket-tasks') {
             this.sendCount.bucket++;
@@ -349,7 +359,21 @@ class ProducerMock {
 }
 
 class KafkaBacklogMetricsMock {
+    constructor() {
+        this.reset();
+        this.producer = null;
+    }
+
+    setProducer(producer) {
+        this.producer = producer;
+    }
+
+    reset() {
+        this.snapshotCalled = {};
+    }
     snapshotTopicOffsets(kafkaClient, topic, snapshotName, cb) {
+        assert.strictEqual(this.snapshotCalled[topic], undefined);
+        this.snapshotCalled[topic] = true;
         return process.nextTick(cb);
     }
 }
@@ -403,6 +427,7 @@ class LifecycleBucketProcessorMock {
 
     reset() {
         this._producer.reset();
+        this._kafkaBacklogMetrics.reset();
     }
 }
 
