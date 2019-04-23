@@ -305,7 +305,6 @@ class S3Helper {
 class ProducerMock {
     constructor() {
         this.reset();
-        this.kafkaBacklogMetrics = null;
     }
 
     reset() {
@@ -321,16 +320,7 @@ class ProducerMock {
         };
     }
 
-    setKafkaBacklogMetrics(kafkaBacklogMetrics) {
-        this.kafkaBacklogMetrics = kafkaBacklogMetrics;
-    }
-
     sendToTopic(topicName, entries, cb) {
-        if (this.kafkaBacklogMetrics.snapshotCalled[topicName]) {
-            assert.fail('did not expect more entries published with ' +
-                        `sendToTopic() after snapshot of topic ${topicName}` +
-                        'offsets');
-        }
         const entry = JSON.parse(entries[0].message);
         if (topicName === 'bucket-tasks') {
             this.sendCount.bucket++;
@@ -369,11 +359,12 @@ class KafkaBacklogMetricsMock {
     }
 
     reset() {
-        this.snapshotCalled = {};
+        this.sendCountAtLastSnapshot = null;
     }
+
     snapshotTopicOffsets(kafkaClient, topic, snapshotName, cb) {
-        assert.strictEqual(this.snapshotCalled[topic], undefined);
-        this.snapshotCalled[topic] = true;
+        this.sendCountAtLastSnapshot = JSON.parse(
+            JSON.stringify(this.producer.sendCount));
         return process.nextTick(cb);
     }
 }
@@ -397,6 +388,7 @@ class LifecycleBucketProcessorMock {
 
         this._producer = new ProducerMock();
         this._kafkaBacklogMetrics = new KafkaBacklogMetricsMock();
+        this._kafkaBacklogMetrics.setProducer(this._producer);
     }
 
     getCount() {
@@ -457,7 +449,10 @@ s3mock, params, cb) {
         // timeout for it to complete.
         const timeout = params.timeout || 0;
         return setTimeout(() => {
-            cb(null, { count: params.lcp.getCount(), entries });
+            const count = params.lcp.getCount();
+            assert.deepStrictEqual(
+                count, params.lcp._kafkaBacklogMetrics.sendCountAtLastSnapshot);
+            cb(null, { count, entries });
         }, timeout);
     });
 }
