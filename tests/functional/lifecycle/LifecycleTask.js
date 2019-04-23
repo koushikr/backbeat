@@ -18,7 +18,7 @@ const s3config = {
 };
 
 const backbeatMetadataProxyMock = {
-    headObject: (headObjectParams, log, cb) => {
+    headLocation: (headLocationParams, log, cb) => {
         cb(null, {
             lastModified: 'Thu, 28 Mar 2019 21:33:15 GMT',
         });
