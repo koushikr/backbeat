@@ -18,31 +18,36 @@ describe('BackbeatAPI', () => {
         bbapi = new BackbeatAPI(config, fakeLogger, { timer: true });
     });
 
-    it('should validate routes', () => {
-        // valid routes
-        [
-            '/_/metrics/crr/all',
-            '/_/healthcheck',
-            '/_/metrics/crr/all/backlog',
-            '/_/metrics/crr/all/completions',
-            '/_/metrics/crr/all/throughput',
-        ].forEach(path => {
-            const req = new BackbeatRequest({ url: path });
-
+    // valid routes
+    [
+        '/_/metrics/crr/all',
+        '/_/metrics',
+        '/_/healthcheck',
+        '/_/metrics/crr/all/backlog',
+        '/_/metrics/crr/all/completions',
+        '/_/metrics/crr/all/throughput',
+    ].forEach(path => {
+        it(`route ${path} is valid`, () => {
+            const req = new BackbeatRequest(
+                { url: path, method: 'GET' },
+            );
+            console.log('method:', req.getHTTPMethod())
             assert.ok(bbapi.isValidRoute(req));
-        });
+        })
+    });
 
-        // invalid routes
-        [
-            '/_/invalid/crr/all',
-            '/_/metrics/ext/all',
-            '/_/metrics/crr/test',
-            '/_/metrics/crr/all/backlo',
-            '/_/metrics/crr/all/completionss',
-        ].forEach(path => {
+    // invalid routes
+    [
+        '/_/invalid/crr/all',
+        '/_/metrics/ext/all',
+        '/_/metrics/crr/test',
+        '/_/metrics/crr/all/backlo',
+        '/_/metrics/crr/all/completionss',
+    ].forEach(path => {
+        it(`route ${path} is not valid`, () => {
             const req = new BackbeatRequest({ url: path });
-            assert.equal(bbapi.isValidRoute(req), false);
-        });
+            assert.strictEqual(bbapi.isValidRoute(req), false);
+        })
     });
 
     it('should calculate the average throughput through redis intervals',

@@ -128,7 +128,7 @@ class SetupReplication extends BackbeatTask {
                 `${source.vault.host}:${source.vault.adminPort}`,
                 source.credentials, internalHttps),
             target: target.isExternal ? undefined : _setupIAMClient(
-                target.transport, `${destHost.host}:${destHost.port}`,
+                target.transport, `${source.vault.host}:${source.vault.adminPort}`,
                 target.credentials, https),
         };
     }

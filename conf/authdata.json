@@ -17,5 +17,14 @@
             "access": "accessKey2",
             "secret": "verySecretKey2"
         }
+    }, {
+        "name": "backbeatuser",
+        "arn": "arn:aws:iam::021851569924:/backbeatuser/",
+        "canonicalID": "b4532d8746034b899c46056868eeffa9d8d22e82b70ee9192bb5614ee876f77f",
+        "displayName": "backbeatuser",
+        "keys": {
+            "access": "A37M7SEDRRH2DHAX8PHM",
+            "secret": "nz5HRT+hteoszTGrXr3UiqwSE+sE34LINtrCmyl6"
+        }
     }]
 }

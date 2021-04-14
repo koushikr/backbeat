@@ -11,6 +11,7 @@ const { attachReqUids } = require('../../../lib/clients/utils');
 const BackbeatTask = require('../../../lib/tasks/BackbeatTask');
 const AccountCredentials =
           require('../../../lib/credentials/AccountCredentials');
+const ReplicationMetrics = require('../ReplicationMetrics');
 const RoleCredentials =
           require('../../../lib/credentials/RoleCredentials');
 const { metricsExtension, metricsTypeProcessed } = require('../constants');
@@ -406,6 +407,13 @@ class ReplicateObject extends BackbeatTask {
             };
             this.mProducer.publishMetrics(
                 extMetrics, metricsTypeProcessed, metricsExtension, () => {});
+            ReplicationMetrics.onReplicationQueued(
+                'label',
+                'loc',
+                'toLoc',
+                500,
+                'partition'
+            );
             return doneOnce(null, partObj.getValue());
         });
     }

@@ -9,6 +9,12 @@ const constants = {
     metricsExtension: 'crr',
     metricsTypeQueued: 'queued',
     metricsTypeProcessed: 'processed',
+    promMetricNames: {
+        replicationQueuedTotal: 'zenko_replication_queued_total',
+        replicationQueuedBytes: 'zenko_replication_queued_bytes',
+        replicationProcessedBytes: 'zenko_replication_processed_bytes',
+        replicationElapsedSeconds: 'zenko_replication_elapsed_seconds',
+    },
     redisKeys: {
         ops: testIsOn ? 'test:bb:ops' : 'bb:crr:ops',
         bytes: testIsOn ? 'test:bb:bytes' : 'bb:crr:bytes',

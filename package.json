@@ -29,7 +29,7 @@
   "homepage": "https://github.com/scality/backbeat#readme",
   "dependencies": {
     "@hapi/joi": "^15.1.0",
-    "arsenal": "scality/Arsenal#5f66ee9",
+    "arsenal": "scality/Arsenal#1584c4acb1ca3ae8cc29983ea2287057487e6d88",
     "async": "^2.3.0",
     "aws-sdk": "2.147.0",
     "backo": "^1.1.0",

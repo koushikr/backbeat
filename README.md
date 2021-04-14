@@ -92,7 +92,7 @@ zkCli -server localhost:2181/backbeat
 Create the `replication-populator` node:
 
 ```
-create /replication-populator my_data
+create /queue-populator my_data
 ```
 
 We may leave the zookeeper server now:
