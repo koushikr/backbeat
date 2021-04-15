@@ -83,9 +83,15 @@ function _getReplicationEndpointType(location) {
 class ReplicationMetrics extends ZenkoMetrics {
     static onReplicationQueued(originLabel, fromLocation, toLocation,
                                contentLength, partition) {
+        console.log("replication queued --------------------------------")
         const fromLocationType = _getReplicationEndpointType(fromLocation);
         const toLocationType = _getReplicationEndpointType(toLocation);
 
+        console.log({
+            origin: originLabel,
+            fromLocation, fromLocationType,
+            toLocation, toLocationType, partition,
+        });
         replicationQueuedTotal.inc({
             origin: originLabel,
             fromLocation, fromLocationType,
@@ -101,6 +107,7 @@ class ReplicationMetrics extends ZenkoMetrics {
 
     static onReplicationProcessed(originLabel, fromLocation, toLocation,
                                   contentLength, status, elapsedMs) {
+        console.log("replication processed ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
         const fromLocationType = _getReplicationEndpointType(fromLocation);
         const toLocationType = _getReplicationEndpointType(toLocation);
 

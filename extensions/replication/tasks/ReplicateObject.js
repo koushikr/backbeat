@@ -407,12 +407,14 @@ class ReplicateObject extends BackbeatTask {
             };
             this.mProducer.publishMetrics(
                 extMetrics, metricsTypeProcessed, metricsExtension, () => {});
-            ReplicationMetrics.onReplicationQueued(
+            console.log("on rep processed")
+            ReplicationMetrics.onReplicationProcessed(
                 'label',
                 'loc',
                 'toLoc',
                 500,
-                'partition'
+                'done',
+                2000,
             );
             return doneOnce(null, partObj.getValue());
         });
