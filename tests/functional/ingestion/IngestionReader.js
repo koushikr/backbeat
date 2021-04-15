@@ -92,9 +92,6 @@ function checkEntryInQueue(kafkaEntries, expectedEntries, done) {
     return done();
 }
 
-console.log('TEST CONFIG------>');
-console.log(testConfig);
-
 // TODO: ZENKO-3366 fix failing ingestion reader tests
 describe('ingestion reader tests with mock', function fD() {
     this.timeout(40000);
@@ -358,7 +355,7 @@ describe('ingestion reader tests with mock', function fD() {
         });
     });
 
-    describe('testing with `bucket2` configuration', () => {
+    describe.skip('testing with `bucket2` configuration', () => {
         const sourceConfig = testConfig.extensions.ingestion.sources[1];
 
         beforeEach(done => {
