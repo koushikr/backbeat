@@ -31,10 +31,12 @@ class BucketMemState {
         const bootstrapList = this._config.getBootstrapList();
         const sites = bootstrapList.map(b => b.site);
         console.log('_cleanup------------->');
+        console.log(sites);
         console.log(this._memo);
 
         // all locations in memo should have an associated bootstrapList site
         Object.keys(this._memo).forEach(bucket => {
+            console.log(bucket, typeof bucket);
             if (sites.indexOf(bucket.getLocationConstraint()) === -1) {
                 delete this._memo[bucket];
             }
