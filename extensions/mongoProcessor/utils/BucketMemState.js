@@ -30,6 +30,8 @@ class BucketMemState {
     _cleanup() {
         const bootstrapList = this._config.getBootstrapList();
         const sites = bootstrapList.map(b => b.site);
+        console.log('_cleanup------------->');
+        console.log(this._memo);
 
         // all locations in memo should have an associated bootstrapList site
         Object.keys(this._memo).forEach(bucket => {
