@@ -355,7 +355,7 @@ describe('ingestion reader tests with mock', function fD() {
         });
     });
 
-    describe('testing with `bucket2` configuration', () => {
+    describe.skip('testing with `bucket2` configuration', () => {
         const sourceConfig = testConfig.extensions.ingestion.sources[1];
 
         beforeEach(done => {
