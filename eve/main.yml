@@ -117,31 +117,31 @@ stages:
       #     env:
       #       CI: "true"
 
-# The docker-build stage will ensure that your images is built on every commit
-# and also hosted on the registry to help you pull it up and test it on a real environment if needed.
-# It will also allow us to pull it and rename it when performing a release.
-  docker-build:
-    worker: &docker_worker
-      type: kube_pod
-      path: eve/workers/docker/pod.yaml
-      images:
-        worker: eve/workers/docker
-    steps:
-      - Git: *git
-      - ShellCommand: *wait_docker_daemon
-      - ShellCommand: *docker_login
-      - ShellCommand:
-          name: docker build
-          command: >-
-            docker build .
-            --tag=${DEVELOPMENT_DOCKER_IMAGE_NAME}:%(prop:commit_short_revision)s
-          env: *docker_env
-          haltOnFailure: true
-      - ShellCommand:
-          name: push docker image into the development namespace
-          command: docker push ${DEVELOPMENT_DOCKER_IMAGE_NAME}
-          haltOnFailure: true
-          env: *docker_env
+# # The docker-build stage will ensure that your images is built on every commit
+# # and also hosted on the registry to help you pull it up and test it on a real environment if needed.
+# # It will also allow us to pull it and rename it when performing a release.
+#   docker-build:
+#     worker: &docker_worker
+#       type: kube_pod
+#       path: eve/workers/docker/pod.yaml
+#       images:
+#         worker: eve/workers/docker
+#     steps:
+#       - Git: *git
+#       - ShellCommand: *wait_docker_daemon
+#       - ShellCommand: *docker_login
+#       - ShellCommand:
+#           name: docker build
+#           command: >-
+#             docker build .
+#             --tag=${DEVELOPMENT_DOCKER_IMAGE_NAME}:%(prop:commit_short_revision)s
+#           env: *docker_env
+#           haltOnFailure: true
+#       - ShellCommand:
+#           name: push docker image into the development namespace
+#           command: docker push ${DEVELOPMENT_DOCKER_IMAGE_NAME}
+#           haltOnFailure: true
+#           env: *docker_env
 
 # This stage can be used to release your docker image.
 # To use this stage:
