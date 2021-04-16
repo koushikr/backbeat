@@ -37,7 +37,7 @@ class BucketMemState {
         // all locations in memo should have an associated bootstrapList site
         Object.keys(this._memo).forEach(bucket => {
             console.log(bucket, typeof this._memo[bucket]);
-            if (sites.indexOf(this._memo[bucket].getLocationConstraint()) === -1) {
+            if (sites.indexOf(bucket.getLocationConstraint()) === -1) {
                 delete this._memo[bucket];
             }
         });
