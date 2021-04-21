@@ -15,6 +15,8 @@ class MetadataMock {
             const [url, queryparams] = req.url.split('?');
             const queryParamsObj = new URLSearchParams(queryparams);
             const resObj = mockRes.GET.responses[url];
+            console.log('url, queryparams, resObj------>', url, queryparams,
+                queryParamsObj, resObj);
             if (!resObj && req.url.startsWith('/default/attributes')) {
                 const err = errors.NoSuchBucket;
                 res.writeHead(err.code, 'NoSuchBucket');

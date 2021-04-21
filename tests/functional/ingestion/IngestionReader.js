@@ -302,7 +302,7 @@ describe('ingestion reader tests with mock', function fD() {
             done();
         });
 
-        it.skip('should successfully ingest new bucket with existing object',
+        it('should successfully ingest new bucket with existing object',
             done => {
                 // update zookeeper status to indicate snapshot phase
                 const path =
