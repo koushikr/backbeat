@@ -194,7 +194,7 @@ describe('ingestion reader tests with mock', function fD() {
         ], done);
     });
 
-    describe('testing with `bucket1` configuration', () => {
+    describe.skip('testing with `bucket1` configuration', () => {
         let batchState;
         const sourceConfig = testConfig.extensions.ingestion.sources[0];
 
