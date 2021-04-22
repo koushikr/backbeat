@@ -61,6 +61,8 @@ function setZookeeperInitState(ingestionReader, cb) {
 }
 
 function checkEntryInQueue(kafkaEntries, expectedEntries, done) {
+    console.log('kafkaEntries', kafkaEntries);
+    console.log('expectedEntries', expectedEntries);
     // 2 entries per object, but the master key is filtered
     assert.strictEqual(kafkaEntries.length, expectedEntries.length);
 
@@ -320,6 +322,7 @@ describe('ingestion reader tests with mock', function fD() {
                     next => {
                         consumer.consume(10, (err, entries) => {
                             assert.ifError(err);
+                            console.log('bucket1');
                             checkEntryInQueue(entries, [expectedNewIngestionEntry],
                                 next);
                         });
@@ -405,6 +408,7 @@ describe('ingestion reader tests with mock', function fD() {
                     }),
                     next => {
                         consumer.consume(10, (err, entries) => {
+                            console.log('bucket2');
                             checkEntryInQueue(entries, [
                                 expectedZeroByteObj,
                                 expectedUTF8Obj,
