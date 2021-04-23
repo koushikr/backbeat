@@ -194,7 +194,7 @@ describe('ingestion reader tests with mock', function fD() {
         ], done);
     });
 
-    describe.skip('testing with `bucket1` configuration', () => {
+    describe('testing with `bucket1` configuration', () => {
         let batchState;
         const sourceConfig = testConfig.extensions.ingestion.sources[0];
 
@@ -250,7 +250,7 @@ describe('ingestion reader tests with mock', function fD() {
             ], done);
         });
 
-        it.skip('_processReadRecords should retrieve logRes stream', done => {
+        it('_processReadRecords should retrieve logRes stream', done => {
             assert.strictEqual(batchState.logRes, null);
             return this.ingestionReader._processReadRecords({}, batchState,
                 err => {
@@ -269,7 +269,7 @@ describe('ingestion reader tests with mock', function fD() {
         });
 
         // Assertion on parsedlogs here is done in the extIngestionQP mock
-        it.skip('_processPrepareEntries should send entries in the correct format ' +
+        it('_processPrepareEntries should send entries in the correct format ' +
             'and update `nbLogEntriesRead` + `nbLogRecordsRead`', done => {
                 async.waterfall([
                     next =>
@@ -288,14 +288,14 @@ describe('ingestion reader tests with mock', function fD() {
                 });
             });
 
-        it.skip('should successfully run setup()', done => {
+        it('should successfully run setup()', done => {
             this.ingestionReader.setup(err => {
                 assert.ifError(err);
                 return done();
             });
         });
 
-        it.skip('should get logOffset', done => {
+        it('should get logOffset', done => {
             const logOffset = this.ingestionReader.getLogOffset();
             // value initialized when creating MockZkClient
             assert.equal(logOffset, mockLogOffset);
@@ -328,7 +328,7 @@ describe('ingestion reader tests with mock', function fD() {
             });
 
         [{}, { maxRead: 2 }].forEach(params => {
-            it.skip('should successfully generate entries from raft logs ' +
+            it('should successfully generate entries from raft logs ' +
                 `with processLogEntries params ${JSON.stringify(params)}`,
                 done => {
                     async.waterfall([
