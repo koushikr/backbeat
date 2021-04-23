@@ -328,7 +328,7 @@ describe('ingestion reader tests with mock', function fD() {
             });
 
         [{}, { maxRead: 2 }].forEach(params => {
-            it.skip('should successfully generate entries from raft logs ' +
+            it('should successfully generate entries from raft logs ' +
                 `with processLogEntries params ${JSON.stringify(params)}`,
                 done => {
                     async.waterfall([
