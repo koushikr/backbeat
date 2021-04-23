@@ -315,7 +315,7 @@ describe('ingestion reader tests with mock', function fD() {
                         }),
                     next => this.ingestionReader.processLogEntries({}, err => {
                         assert.ifError(err);
-                        setTimeout(next, CONSUMER_TIMEOUT);
+                        setTimeout(next, 50000);
                     }),
                     next => {
                         consumer.consume(10, (err, entries) => {
@@ -328,13 +328,13 @@ describe('ingestion reader tests with mock', function fD() {
             });
 
         [{}, { maxRead: 2 }].forEach(params => {
-            it('should successfully generate entries from raft logs ' +
+            it.skip('should successfully generate entries from raft logs ' +
                 `with processLogEntries params ${JSON.stringify(params)}`,
                 done => {
                     async.waterfall([
                         next => this.ingestionReader.processLogEntries({}, err => {
                             assert.ifError(err);
-                            setTimeout(next, 50000);
+                            setTimeout(next, CONSUMER_TIMEOUT);
                         }),
                         next => {
                             consumer.consume(10, (err, entries) => {
