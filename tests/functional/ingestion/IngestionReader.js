@@ -322,7 +322,6 @@ describe('ingestion reader tests with mock', function fD() {
                     next => {
                         consumer.consume(10, (err, entries) => {
                             assert.ifError(err);
-                            console.log('bucket1');
                             checkEntryInQueue(entries, [expectedNewIngestionEntry],
                                 next);
                         });
@@ -408,7 +407,6 @@ describe('ingestion reader tests with mock', function fD() {
                     }),
                     next => {
                         consumer.consume(10, (err, entries) => {
-                            console.log('bucket2');
                             checkEntryInQueue(entries, [
                                 expectedZeroByteObj,
                                 expectedUTF8Obj,
