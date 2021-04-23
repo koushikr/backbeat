@@ -302,7 +302,7 @@ describe('ingestion reader tests with mock', function fD() {
             done();
         });
 
-        it('should successfully ingest new bucket with existing object',
+        it.skip('should successfully ingest new bucket with existing object',
             done => {
                 // update zookeeper status to indicate snapshot phase
                 const path =
@@ -355,7 +355,7 @@ describe('ingestion reader tests with mock', function fD() {
         });
     });
 
-    describe.skip('testing with `bucket2` configuration', () => {
+    describe('testing with `bucket2` configuration', () => {
         const sourceConfig = testConfig.extensions.ingestion.sources[1];
 
         beforeEach(done => {
