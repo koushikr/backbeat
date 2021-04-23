@@ -61,8 +61,6 @@ function setZookeeperInitState(ingestionReader, cb) {
 }
 
 function checkEntryInQueue(kafkaEntries, expectedEntries, done) {
-    console.log('kafkaEntries', kafkaEntries);
-    console.log('expectedEntries', expectedEntries);
     // 2 entries per object, but the master key is filtered
     assert.strictEqual(kafkaEntries.length, expectedEntries.length);
 
