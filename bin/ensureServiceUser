@@ -196,7 +196,7 @@ function collectResource(v, done) {
                 return done(null, null);
             }
 
-            throw err;
+            done(err);
         });
 }
 
